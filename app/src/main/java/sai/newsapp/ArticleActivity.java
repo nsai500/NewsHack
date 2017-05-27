@@ -22,7 +22,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         String url = i.getStringExtra("articleURL");
 
-        String content=i.getStringExtra("content");
+        //String content=i.getStringExtra("content");
 
         webView.loadUrl(url);
 

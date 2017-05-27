@@ -5,8 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle mToggle;
+    private Toolbar toolbar;
 
     Map<Integer, String> articleUrls = new HashMap<Integer, String>();
 
@@ -44,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+        mToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+
+        drawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView listView = (ListView) findViewById(R.id.listView);
         arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,titles);
@@ -225,5 +246,15 @@ public class MainActivity extends AppCompatActivity {
 
             updatelistview();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(mToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

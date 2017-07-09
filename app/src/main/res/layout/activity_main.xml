@@ -21,23 +21,29 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/ripple"
             android:cacheColorHint="@android:color/background_light"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0.5dp"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"
-            android:theme="@style/AppTheme"
-            android:background="@drawable/ripple"/>
+            android:theme="@style/AppTheme" />
 
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true" />
 
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/navigation_menu"
-        app:headerLayout="@layout/navigation_header">
-    </android.support.design.widget.NavigationView>
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

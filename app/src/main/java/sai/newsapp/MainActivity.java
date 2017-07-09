@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> urls = new ArrayList<String>();
 
     ArrayList<String> content = new ArrayList<String>();
+
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY,articleId INTEGER,url VARCHAR,title VARCHAR,content VARCHAR)");
 
-        updatelistview();
+        //updatelistview();
+
+        spinner = (ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.VISIBLE);
 
         DownloadTask downloadTask = new DownloadTask();
         try {
@@ -95,29 +101,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updatelistview(){
-        Toast.makeText(getApplicationContext(),"Contents Updated",Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(getApplicationContext(),"New Content Downloaded",Toast.LENGTH_SHORT).show();
+
         try {
+
             Cursor c = sqLiteDatabase.rawQuery("SELECT * FROM articles", null);
 
             int contentIndex = c.getColumnIndex("content");
             int URLIndex = c.getColumnIndex("url");
             int titleIndex = c.getColumnIndex("title");
 
-            c.moveToFirst();
-
             titles.clear();
             urls.clear();
 
-            while (c != null) {
+            c.moveToFirst();
+
+            while (c.moveToNext()) {
 
                 titles.add(c.getString(titleIndex));
                 urls.add(c.getString(URLIndex));
                 content.add(c.getString(contentIndex));
-                c.moveToNext();
 
             }
 
             arrayAdapter.notifyDataSetChanged();
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -243,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            spinner.setVisibility(View.GONE);
             updatelistview();
         }
     }

@@ -3,10 +3,14 @@ package sai.newsapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class ArticleActivity extends AppCompatActivity {
+
+    String url;
+    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,8 @@ public class ArticleActivity extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        String url = i.getStringExtra("articleURL");
+        url = i.getStringExtra("articleURL");
+        title = i.getStringExtra("title");
 
         //String content=i.getStringExtra("content");
 
@@ -29,4 +34,13 @@ public class ArticleActivity extends AppCompatActivity {
         //webView.loadData(content,"text/html","UTF-8");
 
     }
+
+    public void shareIt(View view){
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT,"Share Link");
+        share.putExtra(Intent.EXTRA_TEXT,title + ":" + url);
+        startActivity(Intent.createChooser(share,"Share Article using"));
+    }
+
 }

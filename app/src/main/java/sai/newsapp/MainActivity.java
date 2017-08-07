@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(getApplicationContext(),ArticleActivity.class);
                 intent.putExtra("articleURL",urls.get(i));
                 intent.putExtra("content",content.get(i));
+                intent.putExtra("title",titles.get(i));
                 startActivity(intent);
             }
         });
